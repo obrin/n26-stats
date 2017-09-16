@@ -68,6 +68,26 @@ module.exports = class TransactionStatus {
     this[_minQueueStack] = new Array(this.timeWindow).fill(0).map(() => new Stack())
   }
 
+  remove () {
+    const transactions = this[_transactionQueue].shift()
+    this[_transactionQueue].push([])
+
+    transactions.forEach((transaction) => {
+      this[_status].count--
+      this[_status].sum -= transaction
+      this[_status].avg = (this[_status].sum / this[_status].count) || 0
+    })
+
+    // dequeue
+    this[_maxQueueStack].shift()
+    this[_maxQueueStack].push(new Stack())
+    this[_minQueueStack].shift()
+    this[_minQueueStack].push(new Stack())
+
+    this[_status].max = this.getMax()
+    this[_status].min = this.getMin()
+  }
+
   add (amount, timestamp, currentTime) {
     // does not allow transactions into the future
     if (timestamp > currentTime) {
