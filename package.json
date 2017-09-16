@@ -4,7 +4,7 @@
   "description": "Calculates realtime statistics of transactions in the last 60 seconds",
   "main": "index.js",
   "scripts": {
-    "start": "",
+    "start": "node index.js",
     "test": ""
   },
   "author": "jordanyong23@gmail.com",
