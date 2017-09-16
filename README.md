@@ -12,6 +12,12 @@ On MacOS
 - Run Test: `npm test`
 - Start application: `npm start`
 
+## Running the app alternatives
+If you have docker and do not want to install node, you may run the application through the docker container.
+The docker image is available on the docker registry
+- `docker run jordanyong/n26-challenge -p 8000:8000`
+- `curl http://localhost:8000/ping`
+
 # API
 ## Record Transaction
 ```
