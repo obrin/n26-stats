@@ -1,5 +1,5 @@
 const request = require('supertest');
-const server = require('../server.js')
+const server = require('../lib/server.js')
 
 const config = {
   timeWindow: 60,

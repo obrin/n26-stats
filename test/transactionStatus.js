@@ -1,4 +1,4 @@
-const TransactionStatus = require('../transactionStatus')
+const TransactionStatus = require('../lib/transactionStatus')
 const expect = require('expect')
 
 describe('transactionInfo', () => {
