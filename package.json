@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": ""
+    "test": "mocha"
   },
   "author": "jordanyong23@gmail.com",
   "license": "ISC",
