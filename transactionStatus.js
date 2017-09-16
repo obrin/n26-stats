@@ -27,13 +27,11 @@ module.exports = class TransactionStatus {
   constructor (opts = {}) {
     this.timeWindow = opts.timeWindow || 60
 
-
     this.max = 0
     this.min = 0
     this.avg = 0
     this.sum = 0
     this.count = 0
-
 
     this[_timeWindow] = opts.timeWindow || 60
     this[_status] = {
