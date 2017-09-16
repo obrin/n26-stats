@@ -70,6 +70,70 @@ describe('transactionInfo', () => {
     })
   })
 
+  describe('#remove', () => {
+    let transaction
+    let transaction2
+    let subject
+    beforeEach(() => {
+      transaction = new TransactionStatus({ timeWindow: 60 })
+      payloads.forEach((payload) => {
+        transaction.add(payload.amount, payload.timestamp, 60000)
+      })
+
+      transaction.remove()
+      subject = transaction.getStatus()
+
+      transaction2 = new TransactionStatus({ timeWindow: 60 })
+      transaction2.add(30, 0, 60000)
+      transaction2.add(40, 0, 60000)
+      transaction2.add(50, 0, 60000)
+      transaction2.add(50, 0, 60000)
+      transaction2.add(10, 1000, 60000)
+
+      transaction2.remove()
+    })
+
+    it('records sum excluding oldest transactions', () => {
+      expect(subject.sum).toEqual(payloads[1].amount + payloads[2].amount)
+    })
+
+    it('records avg excluding oldest transactions', () => {
+      expect(subject.avg).toEqual((payloads[1].amount + payloads[2].amount)/2)
+    })
+
+    describe('max amount', () => {
+      it('excludes oldest transactions', () => {
+        expect(subject.max).toEqual(payloads[1].amount)
+      })
+
+      it('excludes oldest transactions that have overlapping timestamp', () => {
+        expect(transaction2.getStatus().max).toEqual(10)
+      })
+
+      it('returns max as 0 when there are no transactions left', () => {
+        transaction2.remove()
+        transaction2.remove()
+        expect(transaction2.getStatus().max).toEqual(0)
+      })
+    })
+
+    describe('min amount', () => {
+      it('excludes oldest transactions', () => {
+        expect(subject.min).toEqual(payloads[2].amount)
+      })
+
+      it('excludes oldest transactions that have overlapping timestamp', () => {
+        expect(transaction2.getStatus().min).toEqual(10)
+      })
+
+      it('returns min as 0 when there are no transactions left', () => {
+        transaction2.remove()
+        transaction2.remove()
+        expect(transaction2.getStatus().min).toEqual(0)
+      })
+    })
+  })
+
   describe('#getStatus', () => {
     context('when no initial transactions', () => {
       const transaction = new TransactionStatus({ timeWindow: 60 })
