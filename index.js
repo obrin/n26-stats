@@ -37,7 +37,7 @@ async function start () {
   })
 
   app.get('/transactions', (req, res) => {
-    res.json(200)
+    res.json(transaction.getStatus())
   })
 
   app.post('/transactions', (req, res) => {
