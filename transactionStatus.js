@@ -25,14 +25,6 @@ const _minQueueStack = Symbol('minQueueStack');
 
 module.exports = class TransactionStatus {
   constructor (opts = {}) {
-    this.timeWindow = opts.timeWindow || 60
-
-    this.max = 0
-    this.min = 0
-    this.avg = 0
-    this.sum = 0
-    this.count = 0
-
     this[_timeWindow] = opts.timeWindow || 60
     this[_status] = {
       max: 0,
@@ -56,14 +48,14 @@ module.exports = class TransactionStatus {
      * 1              | $40 and $30
      * 2              | $60
      */
-    this[_transactionQueue] = new Array(this.timeWindow).fill(0).map(() => [])
+    this[_transactionQueue] = new Array(this[_timeWindow]).fill(0).map(() => [])
 
     /**
      * Each queue will contain a stack of min/max values
      * Each index of the array represents the time remaining
      */
-    this[_maxQueueStack] = new Array(this.timeWindow).fill(0).map(() => new Stack())
-    this[_minQueueStack] = new Array(this.timeWindow).fill(0).map(() => new Stack())
+    this[_maxQueueStack] = new Array(this[_timeWindow]).fill(0).map(() => new Stack())
+    this[_minQueueStack] = new Array(this[_timeWindow]).fill(0).map(() => new Stack())
   }
 
   remove () {
